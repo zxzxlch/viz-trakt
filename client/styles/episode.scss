@@ -1,0 +1,52 @@
+/* episode.scss */
+@import 'variables';
+
+.episode:global(.row) {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.episode :global {
+  .colEp {
+    text-align: right;
+    font-weight: $fontWeightBold;
+    letter-spacing: 0.05em;
+  }
+
+  .colRating .value {
+    font-size: 1.15em;
+    font-weight: $fontWeightMedium;
+    text-align: right;
+    color: red;
+  }
+
+  .colPlays {
+    font-weight: $fontWeightMedium;
+    color: #00C1E3;
+  }
+
+  .colPlaceholder {
+    flex: 1 1;
+    height: 10px;
+    background-color: $faintGrey;
+    border-radius: 2px;
+  }
+}
+
+:global {
+  .animatePulse {
+    animation: 1.5s ease-in-out pulse infinite alternate;
+  }
+
+  @keyframes :global(pulse) {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+}

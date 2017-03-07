@@ -1,0 +1,34 @@
+/* season.scss */
+@import 'variables';
+
+.season :global {
+  .episodes {
+    display: none;
+    padding: 0;
+
+    li {
+      list-style: none;
+      margin: 0;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: initial;
+  }
+
+  .rowSeason {
+    background-color: #F5F5F5;
+
+    .colTitle .title {
+      font-size: 1.15em;
+      font-weight: $fontWeightMedium;
+    }
+  }
+}
+
+.season:global(.expanded) :global {
+  .episodes {
+    display: block;
+  }
+}

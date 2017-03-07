@@ -1,0 +1,24 @@
+/* plays-bar.scss */
+@import 'variables';
+
+$markerSize: 10px;
+$spacing: 1px;
+
+.playsBar {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 16px;
+  margin: 0 -$spacing;
+}
+
+.playsBar :global {
+  .bar {
+    flex: 1 1;
+    margin: 0 $spacing;
+    background-color: $faintGrey2;
+
+    &.filled {
+      background-color: #78D4E4;
+    }
+  }
+} 
