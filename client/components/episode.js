@@ -26,7 +26,7 @@ class Episode extends Component {
     return (
       <li className={`${episodeClassName} row`}>
         <div className="col colEp">{this.props.indexTitle}</div>
-        <div className="col colTitle" title={this.props.overview}>{this.props.title}</div>
+        <div className="col colTitle" title={this.props.overview} onClick={() => this.toggleDetails()}>{this.props.title}</div>
         <div className="col colRatingBar">
           {ratingBar}
         </div>
@@ -39,8 +39,13 @@ class Episode extends Component {
           <PlaysBar fillRatio={this.props.plays / this.props.maxPlays} />
         </div>
         <div className="col colPlays">{this.props.plays.toLocaleString('en-US')}</div>
+        <div className="col colDetails" ref={(node) => this.detailsBox = node }>{this.props.overview}</div>
       </li>
     );
+  }
+
+  toggleDetails() {
+    this.detailsBox.classList.toggle('expanded');
   }
 };
 

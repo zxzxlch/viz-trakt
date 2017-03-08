@@ -1,8 +1,6 @@
 // server.js
 'use strict';
 
-require('dotenv').config();
-
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -31,6 +29,14 @@ app.use((req, res, next) => {
   res.locals = res.locals || {};
   res.locals.flash = app.locals.flash;
   app.locals.flash = null;
+  next();
+});
+
+// Allow cross browser origin
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://viz-trakt.gomix.me');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
