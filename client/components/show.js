@@ -68,7 +68,7 @@ class Show extends Component {
 
   updateMaxPlays(value) {
     this.setState((state, props) => {
-      if (this.state.maxPlays < value) {
+      if (state.maxPlays < value) {
         return { maxPlays: value };
       }
     });

@@ -31,12 +31,12 @@ $markerSize: 10px;
     &::after {
       content: ' ';
       display: block;
-      width: $markerSize;
-      height: $markerSize;
+      width: ($markerSize - 1);
+      height: ($markerSize - 1);
       background-color: white;
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 1px;
-      transform: scaleX(0.8) rotate(45deg) translate(-$markerSize/2, -$markerSize/2);
+      transform: translate(-$markerSize/2, -$markerSize/2) scaleX(0.8) rotate(45deg);
     }
   }
 } 
