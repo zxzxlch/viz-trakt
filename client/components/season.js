@@ -20,13 +20,20 @@ class Season extends Component {
 
     const episodes = this.state.episodes.map((episode, index) => {
       let episodeProps = Object.assign({}, episode);
+      
       if (!episode) {
         Object.assign(episodeProps, {
           number: index + 1,
         });
       }
-      episodeProps.indexTitle = `${this.props.number}x${episodeProps.number.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
-      return <Episode key={episodeProps.indexTitle} {...episodeProps} />
+      
+      const indexTitle = `${this.props.number}x${episodeProps.number.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
+      Object.assign(episodeProps, {
+        maxPlays: this.props.maxPlays,
+        indexTitle
+      });
+      
+      return <Episode key={indexTitle} {...episodeProps} />
     });
 
     return (
@@ -87,8 +94,6 @@ class Season extends Component {
   updateEpisode(episodeNumber, data) {
     const episode = Object.assign({}, data, { 
       number: episodeNumber,
-      traktUrl: this.url,
-      maxPlays: this.props.maxPlays,
       traktUrl: `${this.props.traktUrl}/episodes/${episodeNumber}`,
     });
 
