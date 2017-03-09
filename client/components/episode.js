@@ -1,4 +1,4 @@
-// client/components/season.js
+// client/components/episode.js
 
 import React, { Component, PropTypes } from 'react';
 import RatingBar from './rating-bar';
@@ -39,7 +39,10 @@ class Episode extends Component {
           <PlaysBar fillRatio={this.props.plays / this.props.maxPlays} />
         </div>
         <div className="col colPlays">{this.props.plays.toLocaleString('en-US')}</div>
-        <div className="col colDetails" ref={(node) => this.detailsBox = node }>{this.props.overview}</div>
+        <div className="col colDetails" ref={(node) => this.detailsBox = node }>
+          <div><a href={this.props.traktUrl} target="_blank">Trakt</a></div>
+          <div>{this.props.overview}</div>
+        </div>
       </li>
     );
   }
@@ -50,6 +53,8 @@ class Episode extends Component {
 };
 
 Episode.propTypes = {
+  number: PropTypes.number,
+  traktUrl: PropTypes.string,
   indexTitle: PropTypes.string,
   title: PropTypes.string,
   overview: PropTypes.string,
