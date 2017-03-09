@@ -1,0 +1,12 @@
+extends ./layouts/default.pug
+
+block vars
+  - var title = 'Search';
+
+block main
+  include ./includes/search-box.pug
+  if results
+    ul.results
+      each result in results
+        li
+          a(href=`/${result.type}s/${result.ids.slug}`) #{result.title} (#{result.year}) (#{result.type})

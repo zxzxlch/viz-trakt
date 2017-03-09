@@ -9,7 +9,10 @@ import css from './styles/show.scss';
 
 const data = JSON.parse($('#data').val());
 var showProps = _pick(data, ['title', 'year', 'seasons', 'ratings']);
-showProps.id = data.ids.trakt;
+Object.assign(showProps, {
+  id: data.ids.trakt,
+  slug: data.ids.slug
+});
 
 render(
   <Show {...showProps} />,

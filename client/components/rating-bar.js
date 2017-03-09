@@ -36,7 +36,10 @@ class RatingBar extends Component {
   scaleColor() {
     return d3.scalePow()
       .exponent(scaleExponent)
-      .domain(d3.extent(d3.values(this.props.distribution)))
+      //.exponent(0.5)
+      //.domain(d3.extent(d3.values(this.props.distribution)))
+      .domain([0, d3.max(d3.values(this.props.distribution))])
+      //.domain([0, this.props.votes])
       .range(colorRange);
   }
 };

@@ -34,6 +34,18 @@
     background-color: $faintGrey;
     border-radius: 2px;
   }
+
+  .colDetails {
+    display: none;
+    flex: 1 1 100%;
+    padding: 20px 10px;
+    font-size: 0.9em;
+    color: gray;
+
+    &.expanded {
+      display: block;
+    }
+  }
 }
 
 :global {

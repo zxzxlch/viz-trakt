@@ -7,7 +7,6 @@ block scripts
   script(type='text/javascript', src='/js/index.js')
 
 block main
+  include ./includes/search-box.pug
   #root
   input(type='hidden', id='data', value=JSON.stringify(show))
-
-  //-code= JSON.stringify(show)

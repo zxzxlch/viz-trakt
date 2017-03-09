@@ -12,11 +12,6 @@
     }
   }
 
-  a {
-    text-decoration: none;
-    color: initial;
-  }
-
   .rowSeason {
     background-color: #F5F5F5;
 
@@ -25,6 +20,11 @@
       font-weight: $fontWeightMedium;
     }
   }
+}
+
+.season > a {
+  text-decoration: none;
+  color: initial;
 }
 
 .season:global(.expanded) :global {

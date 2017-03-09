@@ -25,6 +25,7 @@ class Show extends Component {
         'number', 'title', 'overview', 'rating', 'votes', 'episodeCount', 'airedEpisodes');
       Object.assign(seasonProps, {
         url: `${this.url()}/seasons/${season.number}`,
+        traktUrl: `${this.getTraktUrl()}/seasons/${season.number}`,
         maxPlays: this.state.maxPlays,
         updateMaxPlays: (value) => this.updateMaxPlays(value),
       });
@@ -61,9 +62,13 @@ class Show extends Component {
     return `${process.env.APP_BASE_URL}/shows/${this.props.id}`;
   }
 
+  getTraktUrl() {
+    return `https://trakt.tv/shows/${this.props.slug}`;
+  }
+
   updateMaxPlays(value) {
     this.setState((state, props) => {
-      if (this.state.maxPlays < value) {
+      if (state.maxPlays < value) {
         return { maxPlays: value };
       }
     });
@@ -73,6 +78,8 @@ class Show extends Component {
 // 'title', 'year', 'ids', 'overview', 'rating', 'votes'
 Show.propTypes = {
   id: React.PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  slug: PropTypes.string,
+  traktUrl: PropTypes.string,
   title: PropTypes.string,
   year: PropTypes.number,
   seasons: PropTypes.arrayOf(PropTypes.shape(Season.propTypes)),

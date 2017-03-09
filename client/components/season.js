@@ -19,17 +19,21 @@ class Season extends Component {
     const playValues = this.state.episodes.filter(episode => !!episode).map(episode => episode.plays);
 
     const episodes = this.state.episodes.map((episode, index) => {
-      const episodeProps = Object.assign({}, episode);
+      let episodeProps = Object.assign({}, episode);
+      
       if (!episode) {
-        episodeProps.number = index + 1;
+        Object.assign(episodeProps, {
+          number: index + 1,
+        });
       }
+      
       const indexTitle = `${this.props.number}x${episodeProps.number.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
       Object.assign(episodeProps, {
-        key: indexTitle,
-        indexTitle,
-        maxPlays: this.props.maxPlays
+        maxPlays: this.props.maxPlays,
+        indexTitle
       });
-      return <Episode {...episodeProps} />
+      
+      return <Episode key={indexTitle} {...episodeProps} />
     });
 
     return (
@@ -88,9 +92,14 @@ class Season extends Component {
   }
   
   updateEpisode(episodeNumber, data) {
+    const episode = Object.assign({}, data, { 
+      number: episodeNumber,
+      traktUrl: `${this.props.traktUrl}/episodes/${episodeNumber}`,
+    });
+
     this.setState((state, props) => {
       const { episodes } = state;
-      episodes[episodeNumber - 1] = data;
+      episodes[episodeNumber - 1] = episode;
       return { episodes };
     });
 
@@ -99,6 +108,7 @@ class Season extends Component {
 }
 
 Season.propTypes = {
+  traktUrl: PropTypes.string,
   number: PropTypes.number,
   title: PropTypes.string,
   overview: PropTypes.string,

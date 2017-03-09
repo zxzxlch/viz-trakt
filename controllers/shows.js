@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Rx = require('rxjs/Rx');
 const trakt = require('../lib/trakt');
 
-exports.show = (req, res) => {
+exports.getShow = (req, res) => {
   const { showId } = req.params;
 
   const show = trakt.getShow(showId);
