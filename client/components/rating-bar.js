@@ -4,8 +4,9 @@ import * as d3 from "d3";
 import React, { Component, PropTypes } from 'react';
 import { ratingBar as ratingBarClassName } from '../styles/rating-bar.scss';
 
-const scaleExponent = 2;
-const colorRange = ['#D8EAEB', '#FF0000'];
+const colorRange = ['#D8EAEB', '#FF3D3D', '#990000'];
+// const colorRange = ['#D8EAEB', '#FF0000'];
+const interpolator = d3.interpolateLab;
 
 class RatingBar extends Component {
   render() {
@@ -34,13 +35,15 @@ class RatingBar extends Component {
   }
 
   scaleColor() {
-    return d3.scalePow()
-      .exponent(scaleExponent)
-      //.exponent(0.5)
-      //.domain(d3.extent(d3.values(this.props.distribution)))
-      .domain([0, d3.max(d3.values(this.props.distribution))])
-      //.domain([0, this.props.votes])
-      .range(colorRange);
+    return d3.scaleLinear()
+      .domain([0, this.props.votes * 0.3, this.props.votes])
+      .range(colorRange)
+      .interpolate(interpolator);
+
+    // return d3.scaleLinear()
+    //   .domain([0, d3.max(d3.values(this.props.distribution))])
+    //   .range(colorRange)
+    //   .interpolate(interpolator);
   }
 };
 
