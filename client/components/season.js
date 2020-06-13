@@ -11,29 +11,42 @@ class Season extends Component {
       loading: false,
       episodes: Array(props.airedEpisodes).fill(null),
       avgRating: null,
-      totalPlays: null
+      totalPlays: null,
     };
   }
-  
+
   render() {
-    const playValues = this.state.episodes.filter(episode => !!episode).map(episode => episode.plays);
+    const playValues = this.state.episodes
+      .filter((episode) => !!episode)
+      .map((episode) => episode.plays);
 
     const episodes = this.state.episodes.map((episode, index) => {
-      const episodeProps = Object.assign({}, episode);
+      let episodeProps = Object.assign({}, episode);
+
       if (!episode) {
-        episodeProps.number = index + 1;
+        Object.assign(episodeProps, {
+          number: index + 1,
+        });
       }
-      const indexTitle = `${this.props.number}x${episodeProps.number.toLocaleString('en-US', { minimumIntegerDigits: 2 })}`;
+
+      const indexTitle = `${this.props.number}x${episodeProps.number.toLocaleString('en-US', {
+        minimumIntegerDigits: 2,
+      })}`;
       Object.assign(episodeProps, {
-        key: indexTitle,
+        maxPlays: this.props.maxPlays,
         indexTitle,
-        maxPlays: this.props.maxPlays
       });
-      return <Episode {...episodeProps} />
+
+      return <Episode key={indexTitle} {...episodeProps} />;
     });
 
     return (
-      <div className={seasonClassName} ref={(node) => { this.node = node; }}>
+      <div
+        className={seasonClassName}
+        ref={(node) => {
+          this.node = node;
+        }}
+      >
         <a href="#" onClick={(event) => this.toggleExpanded(event)}>
           <div className="row rowSeason">
             <div className="col colTitle">
@@ -44,7 +57,7 @@ class Season extends Component {
             <div className="col colRating">
               <div className="value">{this.state.avgRating}</div>
               <div className="subtitle">average</div>
-            </div>            
+            </div>
             <div className="col colPlaysBar"></div>
             <div className="col colPlays">
               <div className="value">{this.state.totalPlays}</div>
@@ -52,11 +65,9 @@ class Season extends Component {
             </div>
           </div>
         </a>
-        <ul className="episodes">
-          {episodes}
-        </ul>
+        <ul className="episodes">{episodes}</ul>
       </div>
-    )
+    );
   }
 
   toggleExpanded(event) {
@@ -72,25 +83,32 @@ class Season extends Component {
   loadEpisodes() {
     this.setState({ loading: true });
 
-    let promises = Array(this.props.airedEpisodes).fill(null).map((val, index) => {
-      const episodeNumber = index + 1;
-      const url = `${this.props.url}/episodes/${episodeNumber}`;
-      return $.get(url)
-       .done((data) => {
-          this.updateEpisode(episodeNumber, data);
-       })
-       .catch((err) => {
-         console.error(err);
-       });
-    });
+    let promises = Array(this.props.airedEpisodes)
+      .fill(null)
+      .map((val, index) => {
+        const episodeNumber = index + 1;
+        const url = `${this.props.url}/episodes/${episodeNumber}`;
+        return $.get(url)
+          .done((data) => {
+            this.updateEpisode(episodeNumber, data);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
 
     Promise.all(promises).then(() => console.log('All episodes loaded'));
   }
-  
+
   updateEpisode(episodeNumber, data) {
+    const episode = Object.assign({}, data, {
+      number: episodeNumber,
+      traktUrl: `${this.props.traktUrl}/episodes/${episodeNumber}`,
+    });
+
     this.setState((state, props) => {
       const { episodes } = state;
-      episodes[episodeNumber - 1] = data;
+      episodes[episodeNumber - 1] = episode;
       return { episodes };
     });
 
@@ -99,6 +117,7 @@ class Season extends Component {
 }
 
 Season.propTypes = {
+  traktUrl: PropTypes.string,
   number: PropTypes.number,
   title: PropTypes.string,
   overview: PropTypes.string,
