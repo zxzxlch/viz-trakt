@@ -46,7 +46,7 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
     }),
-    new webpack.EnvironmentPlugin(['APP_BASE_URL']),
+    new webpack.EnvironmentPlugin(['APP_BASE_URL', 'PORT']),
   ],
   devtool: 'cheap-module-eval-source-map',
 };

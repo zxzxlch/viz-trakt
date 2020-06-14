@@ -71,7 +71,7 @@ class Show extends Component {
   }
 
   url() {
-    return `${process.env.APP_BASE_URL}/shows/${this.props.id}`;
+    return `${process.env.APP_BASE_URL}:${process.env.PORT}/shows/${this.props.id}`;
   }
 
   getTraktUrl() {
