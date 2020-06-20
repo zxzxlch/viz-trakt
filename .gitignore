@@ -36,12 +36,16 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
+# IDE config
+*.sublime-*
+*.code-workspace
+.vscode/
+watch.json
+
 .bash_profile
-dist
 .env
 .cache
 .data
 .bashrcfr       
+dist
 public/js
-*.sublime-*
-watch.json
