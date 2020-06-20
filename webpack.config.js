@@ -4,8 +4,10 @@ require('dotenv').config();
 
 const path = require('path');
 const webpack = require('webpack');
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: {
     index: './client/index.js',
   },
@@ -13,6 +15,12 @@ module.exports = {
     path: path.resolve(__dirname, 'public/js'),
     publicPath: '/js/',
     filename: '[name].js',
+  },
+  resolve: {
+    plugins: [PnpWebpackPlugin],
+  },
+  resolveLoader: {
+    plugins: [PnpWebpackPlugin.moduleLoader(module)],
   },
   module: {
     rules: [
