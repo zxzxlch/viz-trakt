@@ -1,4 +1,4 @@
-/* default.scss */
+@import './mixins';
 
 :global {
   * {
@@ -8,7 +8,11 @@
   body {
     font-family: 'Helvetica Neue', helvetica, arial, sans-serif;
     font-size: 15px;
-    margin: 25px;
+    margin: 0;
+
+    @include media-breakpoint(md) {
+      margin: 25px;
+    }
   }
 
   h1 {
@@ -71,7 +75,7 @@
   }
 
   footer > a {
-    color: #BBBBBB;
+    color: #bbbbbb;
   }
 
   .nicejob {

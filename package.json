@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "npm run build && node -r dotenv/config server.js",
-    "webpack:watch": "webpack --watch"
+    "watch": "webpack --watch"
   },
   "dependencies": {
     "axios": "^0.19.2",

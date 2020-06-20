@@ -36,6 +36,7 @@ class Show extends Component {
         traktUrl: `${this.getTraktUrl()}/seasons/${season.number}`,
         maxPlays: this.state.maxPlays,
         updateMaxPlays: (value) => this.updateMaxPlays(value),
+        expandedOnMount: seasonProps.number == 1
       });
       return <Season key={season.number} {...seasonProps} />;
     });
@@ -56,14 +57,6 @@ class Show extends Component {
           </div>
         </div>
         <div className={episodesTableClassName}>
-          <div className="header row">
-            <div className="col colEp">Ep</div>
-            <div className="col colTitle">Title</div>
-            <div className="col colRatingBar">Rating</div>
-            <div className="col colRating"></div>
-            <div className="col colPlaysBar">Plays</div>
-            <div className="col colPlays"></div>
-          </div>
           {seasons}
         </div>
       </div>

@@ -23,23 +23,21 @@ class Episode extends Component {
 
     return (
       <li className={`${episodeClassName} row`}>
-        <div className="col colEp">{this.props.indexTitle}</div>
-        <div
-          className="col colTitle"
-          title={this.props.overview}
-          onClick={() => this.toggleDetails()}
-        >
-          {this.props.title}
-        </div>
         <div className="col colRatingBar">{ratingBar}</div>
-        <div className="col colRating" title={`${this.props.ratings.votes} ratings`}>
-          <div className="value">{this.props.ratings.rating.toFixed(1)}</div>
-          <div>{this.props.ratings.votes}</div>
+        <div>
+          <div className="col colEp">{this.props.indexTitle}</div>
+          <div
+            className="col colTitle"
+            title={this.props.overview}
+            onClick={() => this.toggleDetails()}
+          >
+            {this.props.title}
+          </div>
+          <div className="col colRating" title={`${this.props.ratings.votes} ratings`}>
+            <div className="value">{this.props.ratings.rating.toFixed(1)}</div>
+            <div>{this.props.ratings.votes}</div>
+          </div>
         </div>
-        <div className="col colPlaysBar">
-          <PlaysBar fillRatio={this.props.plays / this.props.maxPlays} />
-        </div>
-        <div className="col colPlays">{this.props.plays.toLocaleString('en-US')}</div>
         <div className="col colDetails" ref={(node) => (this.detailsBox = node)}>
           <div>
             <a href={this.props.traktUrl} target="_blank">

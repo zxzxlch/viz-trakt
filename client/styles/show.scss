@@ -1,5 +1,6 @@
 /* show.scss */
 @import 'variables';
+@import 'mixins';
 
 $colEpWidth: 3em;
 $colRatingBarWidth: 300px;
@@ -34,8 +35,9 @@ $colRatingBarWidth: 300px;
 }
 
 .episodesTable {
-  max-width: 60em;
-  min-width: 800px;
+  @include media-breakpoint(md) {
+    max-width: 60em;
+  }
 }
 
 .episodesTable :global {

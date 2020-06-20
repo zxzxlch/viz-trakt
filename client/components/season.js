@@ -50,18 +50,8 @@ class Season extends Component {
         <a href="#" onClick={(event) => this.toggleExpanded(event)}>
           <div className="row rowSeason">
             <div className="col colTitle">
-              <div className="title">Season {this.props.number}</div>
-              <div className="subtitle">{this.props.airedEpisodes} episodes</div>
-            </div>
-            <div className="col colRatingBar"></div>
-            <div className="col colRating">
-              <div className="value">{this.state.avgRating}</div>
-              <div className="subtitle">average</div>
-            </div>
-            <div className="col colPlaysBar"></div>
-            <div className="col colPlays">
-              <div className="value">{this.state.totalPlays}</div>
-              <div className="subtitle">total</div>
+              <span className="title">Season {this.props.number}</span>
+              <span className="subtitle">{this.props.airedEpisodes} episodes</span>
             </div>
           </div>
         </a>
@@ -70,8 +60,14 @@ class Season extends Component {
     );
   }
 
+  componentDidMount() {
+    if (this.props.expandedOnMount) {
+      this.toggleExpanded();
+    }
+  }
+
   toggleExpanded(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     this.node.classList.toggle('expanded');
 
@@ -127,6 +123,7 @@ Season.propTypes = {
   airedEpisodes: PropTypes.number,
   maxPlays: PropTypes.number,
   updateMaxPlays: PropTypes.func,
+  expandedOnMount: PropTypes.bool,
 };
 
 export default Season;
