@@ -16,7 +16,7 @@ $colRatingBarWidth: 300px;
   }
 }
 
-.ratingBox {
+> .ratingBox {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -34,69 +34,23 @@ $colRatingBarWidth: 300px;
   }
 }
 
-.episodesTable {
+> .episodesTable {
   @include media-breakpoint(md) {
     max-width: 60em;
   }
 }
 
-.episodesTable :global {
-  .header.row {
+.episodesTable  {
+  > :global(.header.row) {
     border-bottom: 1px solid $faintGrey;
     padding-bottom: 10px;
 
-    .col {
+    > .col {
       color: $lightGrey;
     }
   }
 
-  .row {
-    display: flex;
-    padding: 15px;
-
-    .col {
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  .col {
-    margin: 0 10px 0 0;
-  }
-
-  .colEp {
-    flex: 0 0 $colEpWidth;
-    max-width: $colEpWidth;
-    margin-right: 1.1em;
-  }
-
-  .colTitle {
-    flex: 1 1;
-    white-space: nowrap;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .colRatingBar {
-    flex: 0 0 $colRatingBarWidth;
-  }
-
-  .colRating {
-    flex: 0 0 2em;
-    margin-right: 35px;
-  }
-
-  .colPlaysBar {
-    flex: 0 0 50px;
-    margin-right: 16px;
-  }
-
-  .colPlays {
-    flex: 0 0 3.5em;
-  }
-
-  .subtitle {
+  > :global(.subtitle) {
     margin: 4px 0;
     font-size: 0.9em;
     color: $lightGrey;

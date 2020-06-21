@@ -4,24 +4,46 @@
 .episode:global(.row) {
   padding-top: 12px;
   padding-bottom: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  color: #333333;
+
+  > :global(.row) {
+    width: 100%;
+  }
 }
 
-.episode :global {
+.episode :global(.ratingBar) {
+  height: 26px;
+  position: relative;
+}
+
+.episode :global(.header) :global {
+  display: flex;
+
   .colEp {
+    flex-basis: 3em;
+    flex-grow: 0;
     text-align: left;
     font-weight: $fontWeightBold;
     letter-spacing: 0.05em;
   }
 
-  .colRating .value {
+  .colTitle {
+    flex-grow: 1;
+  }
+
+  .colRating {
+    flex-basis: 2em;
+    flex-grow: 0;
     font-size: 1.15em;
     font-weight: $fontWeightMedium;
     text-align: right;
     color: red;
   }
+}
+
+.episode :global(.details) {
+  display: none;
+  color: #333333;
 
   .colPlays {
     font-weight: $fontWeightMedium;
@@ -34,18 +56,10 @@
     background-color: $faintGrey;
     border-radius: 2px;
   }
+}
 
-  .colDetails {
-    display: none;
-    flex: 1 1 100%;
-    padding: 20px 10px;
-    font-size: 0.9em;
-    color: gray;
-
-    &.expanded {
-      display: block;
-    }
-  }
+.episode:global(.expanded) :global(.details) {
+  display: block;
 }
 
 :global {
