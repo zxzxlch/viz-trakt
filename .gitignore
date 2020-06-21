@@ -55,3 +55,6 @@ watch.json
 .bashrcfr       
 dist
 public/js
+
+# Local Netlify folder
+.netlify
