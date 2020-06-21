@@ -6,7 +6,7 @@ $colEpWidth: 3em;
 $colRatingBarWidth: 300px;
 
 .show {
-  .title {
+  :global .title {
     font-size: 2em;
     font-weight: $fontWeightMedium;
   }
@@ -16,43 +16,24 @@ $colRatingBarWidth: 300px;
   }
 }
 
-> .ratingBox {
+.show > .ratingBox :global {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
 
-  :global {
-    .ratingBarContainer {
-      flex: 0 0 $colRatingBarWidth;
-    }
-    .rating {
-      font-weight: $fontWeightMedium;
-      color: red;
-      font-size: 1.3em;
-      margin-left: 0.9em;
-    }
+  .ratingBarContainer {
+    flex: 0 0 $colRatingBarWidth;
+  }
+  .rating {
+    font-weight: $fontWeightMedium;
+    color: red;
+    font-size: 1.3em;
+    margin-left: 0.9em;
   }
 }
 
-> .episodesTable {
+.episodesTable {
   @include media-breakpoint(md) {
     max-width: 60em;
-  }
-}
-
-.episodesTable  {
-  > :global(.header.row) {
-    border-bottom: 1px solid $faintGrey;
-    padding-bottom: 10px;
-
-    > .col {
-      color: $lightGrey;
-    }
-  }
-
-  > :global(.subtitle) {
-    margin: 4px 0;
-    font-size: 0.9em;
-    color: $lightGrey;
   }
 }
