@@ -1,0 +1,24 @@
+{
+  "name": "viz-trakt",
+  "version": "2.0.0",
+  "description": "viz-trakt =========",
+  "private": true,
+  "author": "Ben C",
+  "license": "MIT",
+  "homepage": "https://github.com/zxzxlch/viz-trakt#readme",
+  "bugs": {
+    "url": "https://github.com/zxzxlch/viz-trakt/issues"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "next": "10.0.7",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "sass": "^1.32.8"
+  }
+}
