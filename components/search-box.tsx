@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 export default function SearchBox() {
   const [query, setQuery] = useState('');
   const { data, error } = useSWR(`/api/search?${new URLSearchParams({ q: query }).toString()}`);
@@ -12,5 +10,12 @@ export default function SearchBox() {
     console.log(data);
   });
 
-  return <input type="search" onChange={(e) => setQuery(e.target.value)} />;
+  return (
+    <input
+      type="search"
+      placeholder="Search"
+      className="w-full h-12 px-3 py-2 border-4 rounded-lg text-xl focus:outline-none focus:ring-1 focus:border-blue-300"
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
 }

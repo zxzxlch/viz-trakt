@@ -1,16 +1,20 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"files.exclude": {
-			".next/": true,
-			"**/node_modules/**": true
-		},
-		"files.watcherExclude": {
-			".next/**": true
-		}
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      ".next/": true,
+      "**/node_modules/**": true
+    },
+    "files.watcherExclude": {
+      ".next/**": true
+    },
+    "css.validate": false,
+    "editor.quickSuggestions": {
+      "strings": true
+    }
+  }
 }
