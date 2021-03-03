@@ -1,27 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import useSWR from 'swr';
 import Autosuggest from 'react-autosuggest';
+import { useDebouncedState } from '../lib/hooks';
 import { ISearchResult } from '../pages/api/search';
 import theme from './search-box.module.css';
 
 export default function SearchBox() {
   const [inputValue, setInputValue] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQueryDebounced, setSearchQuery] = useDebouncedState('', 500);
   const { data: suggestions = [], error } = useSWR(
     `/api/search?${new URLSearchParams({ q: searchQuery }).toString()}`,
   );
 
-  useEffect(() => {
-    console.log(`inputValue=${inputValue} · searchQuery=${searchQuery}`);
-    console.log('response=');
-    console.log(suggestions);
-  });
-
   const onSuggestionsFetchRequested = ({ value, reason }) => {
     // Don't change search query if user pressed up/down, if not suggestions will change
-    if (reason === 'input-changed' || reason === 'input-focused') setSearchQuery(value);
+    if (reason === 'input-changed' || reason === 'input-focused') setSearchQueryDebounced(value);
     return suggestions;
   };
 

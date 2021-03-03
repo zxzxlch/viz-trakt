@@ -14,6 +14,14 @@ export default async function search(req: NextApiRequest, res: NextApiResponse) 
     query: { q },
   } = req;
 
+  console.log(`/api/search - '${q}'`)
+
+  // Return empty array if search query is empty
+  if (q === '') {
+    res.status(200).json([]);
+    return;
+  }
+
   const parse = (d: any): ISearchResult => {
     const { type, show, movie } = d;
     const mediaInfo = show || movie;
