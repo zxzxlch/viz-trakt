@@ -20,7 +20,7 @@ function buildRequest(endPoint: string, query: any, opts: RequestInit = {}) {
 }
 
 export async function search(query: string) {
-  const res = await fetch(buildRequest('/search/movie,show', { query }));
+  const res = await fetch(buildRequest('/search/movie,show', { query, limit: 7 }));
   if (!res.ok) throw new Error(`HTTP error ${res.status}`);
   return await res.json();
 }
