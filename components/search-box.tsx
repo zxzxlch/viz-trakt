@@ -8,48 +8,54 @@ import theme from './search-box.module.css';
 
 export default function SearchBox() {
   const [inputValue, setInputValue] = useState('');
-  const [searchQuery, setSearchQueryDebounced, setSearchQuery] = useDebouncedState('', 500);
+  const [searchQuery, setSearchQueryDebounced, setSearchQuery] = useDebouncedState('', 400);
   const { data: suggestions = [], error } = useSWR(
     `/api/search?${new URLSearchParams({ q: searchQuery }).toString()}`,
   );
 
-  const onSuggestionsFetchRequested = ({ value, reason }) => {
-    // Don't change search query if user pressed up/down, if not suggestions will change
-    if (reason === 'input-changed' || reason === 'input-focused') setSearchQueryDebounced(value);
-    return suggestions;
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSearchQuery('');
-  };
-
-  const getSuggestionValue = (suggestion: ISearchResult) => {
-    return suggestion.title;
-  };
-
-  const renderInputComponent = (inputProps) => (
-    <div className={theme.inputGroup}>
-      <div className={theme.searchIcon}>
-        <svg
-          className="w-6 h-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </div>
-      <input {...inputProps} />
-    </div>
+  const onSuggestionsFetchRequested = useCallback(
+    ({ value, reason }) => {
+      // Don't change search query if user pressed up/down, if not suggestions will change
+      if (reason === 'input-changed' || reason === 'input-focused') setSearchQueryDebounced(value);
+      return suggestions;
+    },
+    [setSearchQueryDebounced],
   );
 
-  const renderSuggestion = (suggestion: ISearchResult, { query, isHighlighted }) => {
+  const onSuggestionsClearRequested = useCallback(() => {
+    setSearchQuery('');
+  }, [setSearchQuery]);
+
+  const getSuggestionValue = useCallback((suggestion: ISearchResult) => {
+    return suggestion.title;
+  }, []);
+
+  const renderInputComponent = useCallback(
+    (inputProps) => (
+      <div className={theme.inputGroup}>
+        <div className={theme.searchIcon}>
+          <svg
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+        <input {...inputProps} />
+      </div>
+    ),
+    [],
+  );
+
+  const renderSuggestion = useCallback((suggestion: ISearchResult, { query, isHighlighted }) => {
     const { slug, title, year, mediaType } = suggestion;
     return (
       <Link href={`/shows/${slug}`}>
@@ -61,14 +67,19 @@ export default function SearchBox() {
         </a>
       </Link>
     );
-  };
+  }, []);
+
+  const onInputChange = useCallback(
+    (_e, { newValue }) => {
+      setInputValue(newValue);
+    },
+    [setInputValue],
+  );
 
   const inputProps = {
     placeholder: 'Search movie or TV show',
     value: inputValue,
-    onChange: (_e, { newValue }) => {
-      setInputValue(newValue);
-    },
+    onChange: onInputChange,
   };
 
   return (
