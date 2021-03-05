@@ -13,6 +13,8 @@ export default function SearchBox() {
     `/api/search?${new URLSearchParams({ q: searchQuery }).toString()}`,
   );
 
+  if (error) console.error(error);
+
   const onSuggestionsFetchRequested = useCallback(
     ({ value, reason }) => {
       // Don't change search query if user pressed up/down, if not suggestions will change

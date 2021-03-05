@@ -31,3 +31,11 @@ export async function getShow(id: string) {
   if (!res.ok) throw new Error(`HTTP error ${res.status}`);
   return await res.json();
 }
+
+export async function getSeasons(showId: string) {
+  const res = await fetch(
+    buildRequest(`/shows/${showId}/seasons`, { extended: 'full,episodes' }),
+  );
+  if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+  return await res.json();
+}

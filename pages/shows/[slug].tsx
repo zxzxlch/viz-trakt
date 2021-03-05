@@ -1,29 +1,26 @@
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import type { IShowResult } from '../api/shows/[id]';
 import Link from 'next/link';
 import Image from 'next/image';
 import Layout from '../../components/layout';
 import SearchBox from '../../components/search-box';
+import type { IShow } from '../../lib/types';
+import Seasons from '../../components/seasons';
 
 interface Props {
-  show: IShowResult;
+  show: IShow;
 }
 
 function ShowPage({ show }: Props) {
   const router = useRouter();
 
+  // If props have not been loaded
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
-  const {
-    title,
-    year,
-    overview,
-    traktUrl,
-    ratings: { rating, votes },
-  } = show;
+  const { slug, title, year, overview, traktURL, rating, votes } = show;
 
   return (
     <Layout>
@@ -57,17 +54,20 @@ function ShowPage({ show }: Props) {
               {title} ({year})
             </h1>
             <p className="text-lg">{overview}</p>
-            <p className="flex items-center">
+            <div className="flex items-center">
               <div className="px-1.5 py-1 rounded-lg font-mono font-semibold text-sm text-white bg-blue-600">
                 {rating.toFixed(1)}/10
               </div>
               <small className="ml-2 text-xs text-gray-600">{votes.toLocaleString()} votes</small>
-            </p>
-            <p>
-              <a className="text-blue-600" href={traktUrl}>
+            </div>
+            <div>
+              <a className="text-blue-600" href={traktURL}>
                 {title} on Trakt
               </a>
-            </p>
+            </div>
+          </div>
+          <div>
+            <Seasons showId={slug} />
           </div>
         </main>
       </div>
@@ -83,15 +83,16 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(`${process.env.SITE_BASE_URL}/api/shows/${params.slug}`);
-  const show = await res.json();
+  try {
+    const res = await fetch(`${process.env.SITE_BASE_URL}/api/shows/${params.slug}`);
+    const show = await res.json();
 
-  return {
-    props: { show },
-    // Re-generate the post at most once per second
-    // if a request comes in
-    revalidate: 1,
-  };
+    return {
+      props: { show },
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export default ShowPage;

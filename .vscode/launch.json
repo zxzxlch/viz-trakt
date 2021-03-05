@@ -5,11 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack://_N_E/*": "${webRoot}/*"
+      }
+    },
+    {
       "type": "node",
       "request": "attach",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "port": 9229
+      "port": 9229,
+      "sourceMapPathOverrides": {
+        "webpack://_N_E/*": "${workspaceFolder}/*"
+      }
     }
   ]
 }
