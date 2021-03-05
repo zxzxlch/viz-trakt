@@ -12,6 +12,13 @@ export default function Seasons({ showId }: Props) {
   const [currentSeason, setCurrentSeason] = useState<ISeason>(null);
   const { data: seasons, error } = useSWR<Array<ISeason>, string>(`/api/shows/${showId}/seasons`);
 
+  const selectOnChange = useCallback(
+    (e) => {
+      setCurrentSeasonNum(parseInt(e.target.value));
+    },
+    [setCurrentSeasonNum],
+  );
+
   useEffect(() => {
     if (!seasons || seasons.length === 0) return setCurrentSeason(null);
     const filtered = seasons.filter((s) => s.number === currentSeasonNum);
@@ -23,11 +30,15 @@ export default function Seasons({ showId }: Props) {
   if (!seasons) return <div>loading...</div>;
 
   const selector = (
-    <select className="p-2 rounded-md font-medium bg-gray-200 text-gray-800">
+    <select
+      className="p-2 rounded-md font-medium bg-gray-200 text-gray-800"
+      value={currentSeasonNum}
+      onChange={selectOnChange}
+    >
       {seasons.map((season) => {
         const { number } = season;
         return (
-          <option value="{number}" selected={number === currentSeasonNum}>
+          <option key={number} value={number}>
             Season {number}
           </option>
         );
@@ -40,8 +51,10 @@ export default function Seasons({ showId }: Props) {
     return (
       <div>
         <div className="flex space-x-4 items-center text-lg">
-            <div>{selector}</div>
-            <div className="text-gray-600 text-base">{currentSeason.episodes.length || '0'} episodes</div>
+          <div>{selector}</div>
+          <div className="text-gray-600 text-base">
+            {currentSeason.episodes.length || '0'} episodes
+          </div>
         </div>
         <div className="divide-y">
           {currentSeason.episodes.map((episode) => (
