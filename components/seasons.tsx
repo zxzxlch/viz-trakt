@@ -30,20 +30,31 @@ export default function Seasons({ showId }: Props) {
   if (!seasons) return <div>loading...</div>;
 
   const selector = (
-    <select
-      className="p-2 rounded-md font-medium bg-gray-200 text-gray-800"
-      value={currentSeasonNum}
-      onChange={selectOnChange}
-    >
-      {seasons.map((season) => {
-        const { number } = season;
-        return (
-          <option key={number} value={number}>
-            Season {number}
-          </option>
-        );
-      })}
-    </select>
+    <div className="relative flex">
+      <div className="absolute top-0 right-0 w-8 h-full flex items-center text-gray-700 pointer-events-none">
+        <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+      <select
+        className="px-3 py-2 pr-10 rounded-md font-medium bg-gray-200 text-gray-800 appearance-none"
+        value={currentSeasonNum}
+        onChange={selectOnChange}
+      >
+        {seasons.map((season) => {
+          const { number } = season;
+          return (
+            <option key={number} value={number}>
+              Season {number}
+            </option>
+          );
+        })}
+      </select>
+    </div>
   );
 
   function currentSeasonRender() {
