@@ -65,7 +65,7 @@ export default function Seasons({ showId, seasons }: Props) {
           {currentSeason.episodes.length || '0'} episodes
         </div>
       </div>
-      <div className="divide-y">
+      <div className="space-y-2">
         {currentSeason.episodes.map((episode) => {
           const { season, number } = episode;
           return (
