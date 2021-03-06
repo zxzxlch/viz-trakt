@@ -34,8 +34,14 @@ export async function getShow(id: string) {
 }
 
 export async function getSeasons(showId: string) {
+  const res = await fetch(buildRequest(`/shows/${showId}/seasons`, { extended: 'full,episodes' }));
+  if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+  return await res.json();
+}
+
+export async function getEpisodeRatings(showId: string, season: number, episode: number) {
   const res = await fetch(
-    buildRequest(`/shows/${showId}/seasons`, { extended: 'full,episodes' }),
+    buildRequest(`/shows/${showId}/seasons/${season}/episodes/${episode}/ratings`),
   );
   if (!res.ok) throw new Error(`HTTP error ${res.status}`);
   return await res.json();

@@ -10,9 +10,7 @@ export interface ISearchResult {
 }
 
 export default async function search(req: NextApiRequest, res: NextApiResponse) {
-  const {
-    query: { q },
-  } = req;
+  const { q } = req.query as { [key: string]: string };
 
   // Return empty array if search query is empty
   if (q === '') {

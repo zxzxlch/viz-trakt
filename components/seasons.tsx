@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Episode, { getEpisodeId } from './episode';
+import Episode from './episode';
 import { ISeason } from '../lib/types';
 
 type Props = {
+  showId: string;
   seasons: Array<ISeason>;
 };
 
-export default function Seasons({ seasons }: Props) {
+export default function Seasons({ showId, seasons }: Props) {
   const [currentSeasonNum, setCurrentSeasonNum] = useState(1);
   const [currentSeason, setCurrentSeason] = useState<ISeason>(null);
 
@@ -56,24 +57,34 @@ export default function Seasons({ seasons }: Props) {
     </div>
   );
 
-  function currentSeasonRender() {
-    if (!currentSeason) return null;
-    return (
-      <div>
-        <div className="flex space-x-4 items-center text-lg">
-          <div>{selector}</div>
-          <div className="text-gray-600 text-base">
-            {currentSeason.episodes.length || '0'} episodes
-          </div>
-        </div>
-        <div className="divide-y">
-          {currentSeason.episodes.map((episode) => (
-            <Episode key={getEpisodeId(episode.season, episode.number)} {...episode} />
-          ))}
+  return !currentSeason ? null : (
+    <div>
+      <div className="flex space-x-4 items-center text-lg">
+        <div>{selector}</div>
+        <div className="text-gray-600 text-base">
+          {currentSeason.episodes.length || '0'} episodes
         </div>
       </div>
-    );
-  }
+      <div className="divide-y">
+        {currentSeason.episodes.map((episode) => {
+          const { season, number } = episode;
+          return (
+            <Episode
+              key={getEpisodeId(season, number)}
+              ratingsAPIPath={`/api/shows/${showId}/seasons/${season}/episode/${number}/ratings`}
+              getEpisodeId={getEpisodeId}
+              {...episode}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-  return currentSeasonRender();
+function getEpisodeId(season: number, episode: number) {
+  const episodeFormatted = episode.toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+  });
+  return `${season}×${episodeFormatted}`;
 }
