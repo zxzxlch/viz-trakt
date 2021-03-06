@@ -1,18 +1,19 @@
-import useSWR from 'swr';
 import { useRouter } from 'next/router';
+import { getShow as getTraktShow, getSeasons as getTraktSeasons } from '../../lib/trakt';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import Layout from '../../components/layout';
 import SearchBox from '../../components/search-box';
-import type { IShow } from '../../lib/types';
 import Seasons from '../../components/seasons';
+import type { IShow, ISeason, IEpisode } from '../../lib/types';
 
 interface Props {
   show: IShow;
+  seasons: Array<ISeason>;
 }
 
-function ShowPage({ show }: Props) {
+function ShowPage({ show, seasons }: Props) {
   const router = useRouter();
 
   // If props have not been loaded
@@ -67,7 +68,7 @@ function ShowPage({ show }: Props) {
             </div>
           </div>
           <div>
-            <Seasons showId={slug} />
+            <Seasons seasons={seasons} />
           </div>
         </main>
       </div>
@@ -83,16 +84,77 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const { slug: showId } = params;
   try {
-    const res = await fetch(`${process.env.SITE_BASE_URL}/api/shows/${params.slug}`);
-    const show = await res.json();
+    const fetchShow = getTraktShow(showId);
+    const fetchSeasons = getTraktSeasons(showId);
+
+    const { show, seasons } = await Promise.all([fetchShow, fetchSeasons]).then(
+      ([show, seasons]) => {
+        return {
+          show: parseShowData(show),
+          seasons: parseSeasonsData(showId, seasons),
+        };
+      },
+    );
 
     return {
-      props: { show },
+      props: { show, seasons },
+      revalidate: 60 * 60 * 24 * 7, // revalidate once a week at most
     };
   } catch (error) {
-    console.error(error);
+    console.error(`Can't getStaticProps for Show page: ${error}`);
   }
+}
+
+function parseShowData(data: any): IShow {
+  const { title, year, ids, overview, rating, votes } = data;
+  const { trakt: traktId, slug } = ids;
+  const traktURL = `https://trakt.tv/shows/${slug}`;
+
+  return {
+    slug,
+    title,
+    year,
+    overview,
+    traktId,
+    traktURL,
+    rating,
+    votes,
+  };
+}
+
+function parseSeasonsData(showId: string, data: any): Array<ISeason> {
+  return data.map((season: any) => parseSeasons(showId, season));
+}
+
+function parseSeasons(showId: string, data: any): ISeason {
+  const { number, title, overview, episodes } = data;
+  const traktURL = `https://trakt.tv/shows/${showId}/seasons/${number}`;
+
+  return {
+    number,
+    title,
+    traktURL,
+    overview,
+    episodes: episodes.map((episode: any) => parseEpisode(traktURL, number, episode)),
+  };
+}
+
+function parseEpisode(seasonURL: string, season: number, data: any): IEpisode {
+  const { number, title, overview, rating, votes, first_aired: firstAired } = data;
+  const traktURL = `${seasonURL}/episodes/${number}`;
+
+  return {
+    season,
+    number,
+    title,
+    overview,
+    firstAired,
+    rating,
+    votes,
+    traktURL,
+  };
 }
 
 export default ShowPage;

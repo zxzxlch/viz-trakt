@@ -1,3 +1,4 @@
+// Fetch helpers for Trakt API
 const apiBaseUrl = 'https://api.trakt.tv';
 
 function buildRequest(endPoint: string, query?: any, opts: RequestInit = {}) {

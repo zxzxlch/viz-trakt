@@ -15,7 +15,6 @@ export interface ISeason {
   number: number;
   title: string;
   overview: string;
-  episodeCount: number;
   episodes: Array<IEpisode>;
 }
 
