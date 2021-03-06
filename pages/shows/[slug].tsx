@@ -68,7 +68,7 @@ function ShowPage({ show, seasons }: Props) {
             </div>
           </div>
           <div>
-            <Seasons seasons={seasons} />
+            <Seasons key={`${slug}`} seasons={seasons} />
           </div>
         </main>
       </div>
