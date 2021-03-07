@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { select } from 'd3-selection';
-import { max } from 'd3-array';
+import { max, range } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
 import { line, area, curveCardinal } from 'd3-shape';
 import { IRatingDistribution } from '../lib/types';
@@ -21,7 +21,7 @@ export default function RatingsGraph({ rating, votes, distribution }: Props) {
     if (!distribution) return;
 
     const svg = select(svgRef.current);
-    const data = distribution;
+    const data = distribution.map((d) => d / votes);
     const margin = { top: 10, right: 5, bottom: 5, left: 5 };
     const curve = curveCardinal;
 
@@ -57,10 +57,10 @@ export default function RatingsGraph({ rating, votes, distribution }: Props) {
       .attr('stroke-width', 0.5)
       .attr('stroke-dasharray', '2')
       .selectAll('line')
-      .data([0, 0.25, 0.5, 0.75, 1])
+      .data(range(0, 1.1, 0.1).filter((d) => y(d) > 0))
       .join('line')
-      .attr('y1', (d) => 0.5 + yAxisScale(d))
-      .attr('y2', (d) => 0.5 + yAxisScale(d))
+      .attr('y1', (d) => 0.5 + y(d))
+      .attr('y2', (d) => 0.5 + y(d))
       .attr('x1', margin.left)
       .attr('x2', w - margin.right);
 
