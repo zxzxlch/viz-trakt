@@ -129,7 +129,7 @@ function parseSeasonsData(showId: string, data: any): Array<ISeason> {
 }
 
 function parseSeasons(showId: string, data: any): ISeason {
-  const { number, title, overview, episodes } = data;
+  const { number, title, overview, episodes = [] } = data;
   const traktURL = `https://trakt.tv/shows/${showId}/seasons/${number}`;
 
   return {
