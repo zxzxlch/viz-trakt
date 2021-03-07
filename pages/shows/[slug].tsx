@@ -62,8 +62,8 @@ function ShowPage({ show, seasons }: Props) {
               <small className="ml-2 text-xs text-gray-600">{votes.toLocaleString()} votes</small>
             </div>
             <div>
-              <a className="text-blue-600" href={traktURL}>
-                {title} on Trakt
+              <a className="text-blue-600" href={traktURL} target="_blank">
+                View on Trakt
               </a>
             </div>
           </div>
