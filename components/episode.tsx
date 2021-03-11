@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import useSWR from 'swr';
-import { IEpisode, APIRatingsData, IRatingDistribution } from '../lib/types';
+import { IEpisode, APIRatingsData } from '../lib/types';
 import RatingsGraph from './ratingsGraph';
 
 type Props = IEpisode & {
@@ -45,7 +45,7 @@ export default function Episode({
           <span>{episodeId}</span>
           <span>{title}</span>
         </div>
-        <div>{overview}</div>
+        <div className="line-clamp-3">{overview}</div>
         <div className="flex space-x-4 items-center">
           <div className="flex items-center">
             <div className="px-1.5 py-1 rounded-lg font-mono font-semibold text-sm text-white bg-blue-600">

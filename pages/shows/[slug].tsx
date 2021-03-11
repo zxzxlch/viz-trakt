@@ -54,7 +54,7 @@ function ShowPage({ show, seasons }: Props) {
             <h1 className="text-4xl font-extrabold">
               {title} ({year})
             </h1>
-            <p className="text-lg">{overview}</p>
+            <p className="text-lg line-clamp-4">{overview}</p>
             <div className="flex items-center">
               <div className="px-1.5 py-1 rounded-lg font-mono font-semibold text-sm text-white bg-blue-600">
                 {rating.toFixed(1)}/10
